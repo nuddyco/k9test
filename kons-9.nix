@@ -5,7 +5,7 @@ let pkgs = import nixpkgs {}; in
 
 # Define a lisp distribution with all the libraries that we depend on
 # (including their foreign dependencies e.g. OpenGL libraries.)
-rec {
+let
   # sbcl custom initialization
   sbcl-initrc = pkgs.writeText "sbcl-initrc.lisp"
   ''
@@ -46,4 +46,7 @@ rec {
        '')
       ];
   };
+in
+rec {
+  inherit sbcl k9;
 }
