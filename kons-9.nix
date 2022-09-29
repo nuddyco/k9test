@@ -33,20 +33,20 @@ let
               trivial-benchmark
             ]);
   # Define a development environment that auto-starts this Lisp.
-  k9 = pkgs.mkShell {
-    nativeBuildInputs =
-      # Generate 'sbcl' script with all dependencies available and
-      # kons-9.asd loaded.
-      [ (pkgs.writeShellScriptBin "sbcl"
-        ''
-         exec ${sbcl}/bin/sbcl --load ${sbcl-initrc} \
-                                   --eval "(require 'asdf)" \
-                                                    --load ${kons-9}/kons-9.asd \
-                               $@
-       '')
-      ];
-  };
+  k9 = pkgs.writeShellScriptBin "sbcl"
+         ''
+           exec ${sbcl}/bin/sbcl --load ${sbcl-initrc} \
+                                 --eval "(require 'asdf)" \
+                                 --load ${kons-9}/kons-9.asd \
+                                 "$@"
+       '';
+  k9-test = pkgs.runCommand "kons-9-test" { buildInputs = [ k9 ]; }
+    ''
+      HOME=$(pwd)
+      sbcl --script ${./kons-9-test.lisp}
+      echo "ok" > $out
+    '';
 in
 rec {
-  inherit sbcl k9;
+  inherit sbcl k9 k9-test;
 }
