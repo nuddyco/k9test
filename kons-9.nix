@@ -1,5 +1,7 @@
-{ pkgs ? (import <nixpkgs> {})
+{ nixpkgs
 , kons-9 }:
+
+let pkgs = import nixpkgs {}; in
 
 # Define a lisp distribution with all the libraries that we depend on
 # (including their foreign dependencies e.g. OpenGL libraries.)
