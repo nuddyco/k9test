@@ -1,3 +1,4 @@
+;; Simple tests for kons-9
 (require :asdf)
 (format t "~&Loading Kons-9..~%")
 (asdf:oos 'asdf:load-op :kons-9)
