@@ -1,8 +1,8 @@
 # Test matrix: platform * lisp-impl * lisp-package
 {
   nixpkgs
-, systems ? [ "x86_64-linux" "i686-linux" "aarch64-linux" ]
-, lisps ? [ "sbcl" "ecl" "abcl" "ccl" ]
+, systems ? [ "x86_64-linux" "aarch64-linux" ]
+, lisps ? [ "sbcl" ]
 }:
 
 let basepkgs = import nixpkgs {};
