@@ -7,7 +7,7 @@ let
   pkgs          = import nixpkgs {};
   x86_64-linux  = import nixpkgs { system = "x86_64-linux"; };
   aarch64-linux = import nixpkgs { system = "aarch64-linux"; };
-  patched       = pkg: pkg.overrideAttrs(o: { src = sbcl-src; });
+  patched       = pkg: pkg.overrideAttrs(o: { src = sbcl-src; patches = []; });
 in
 
 pkgs.lib.recurseIntoAttrs {
