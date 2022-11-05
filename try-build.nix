@@ -30,9 +30,6 @@ let
     '';
 all = builtins.mapAttrs (name: value: try name) lispPackages_new.sbclPackages;
 in
-runCommand "test" all
-  ''
-    export > $out
-  ''
+all
 #  try package
 #      nix --experimental-features "nix-command recursive-nix" log -f ${expr} &> $out/error.log
