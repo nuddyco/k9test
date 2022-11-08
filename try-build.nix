@@ -34,7 +34,7 @@ let
           if [ -f $f  ]; then
             echo "file log $f" >> $out/nix-support-hydra-build-products
           fi
-        fi
+        done
         set -e
     '';
 all = builtins.mapAttrs (name: value: try name)
