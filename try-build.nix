@@ -32,14 +32,14 @@ let
         mkdir -p $out/nix-support
         for f in $(ls $out/* | sort); do
           if [ -f $f  ]; then
-            echo "file log $f" >> $out/nix-support-hydra-build-products
+            echo "file log $f" >> $out/nix-support/hydra-build-products
           fi
         done
         set -e
     '';
 all = builtins.mapAttrs (name: value: try name)
-#  (lib.filterAttrs (name: value: name == "bmas") lispPackages_new.sbclPackages);
-   lispPackages_new.sbclPackages;
+  (lib.filterAttrs (name: value: name == "bmas") lispPackages_new.sbclPackages);
+#   lispPackages_new.sbclPackages;
 in
 all
 #  try package
