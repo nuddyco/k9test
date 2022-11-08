@@ -6,7 +6,7 @@ with import nixpkgs {};
 let
   expr = pkg: writeText "${pkg}.nix" ''
     with import <nixpkgs> {};
-    lispPackages_new.sbclPackages.${pkg} // { build_for_test = "a"; }
+    lispPackages_new.sbclPackages.${pkg} // { build_for_test = "b"; }
   '';
   try = pkg:
     runCommand "try-${pkg}"
