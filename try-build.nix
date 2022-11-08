@@ -22,13 +22,23 @@ let
         failureHook="echo FAILURE FAILURE FAILURE; exit 0"
         mkdir $out
         export NIX_PATH=nixpkgs=$nixpkgs
-        nix --max-build-log-size 10000 --log-lines 10000 \
+        nix  \
             --experimental-features "nix-command recursive-nix" \
-            build -v -L -f ${expr pkg} \
+            build --no-sandbox --impure --log-lines 30 -v -L -f ${expr pkg} \
               2>&1 | tee $out/output.log
+        echo "Build completed with status: $?"
+
+        # Make build artifacts available via Hydra UI
+        mkdir -p $out/nix-support
+        for f in $(ls $out/* | sort); do
+          if [ -f $f  ]; then
+            echo "file log $f" >> $out/nix-support-hydra-build-products
+          fi
+        fi
         set -e
     '';
-all = builtins.mapAttrs (name: value: try name) lispPackages_new.sbclPackages;
+all = builtins.mapAttrs (name: value: try name)
+  (lib.filterAttrs (name: value: name == "bmas") lispPackages_new.sbclPackages);
 in
 all
 #  try package
