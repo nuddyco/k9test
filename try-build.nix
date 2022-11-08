@@ -6,7 +6,7 @@ with import nixpkgs {};
 let
   expr = pkg: writeText "${pkg}.nix" ''
     with import <nixpkgs> {};
-    lispPackages_new.sbclPackages.${pkg} // { build_for_test = "b"; }
+    lispPackages_new.sbclPackages.PKG // { build_for_test = "c"; }
   '';
   try = pkg:
     runCommand "try-${pkg}"
@@ -22,9 +22,11 @@ let
         failureHook="echo FAILURE FAILURE FAILURE; exit 0"
         mkdir $out
         export NIX_PATH=nixpkgs=$nixpkgs
+        cp ${expr pkg} pkg.nix
+        sed -i s/PKG/${pkg}/ pkg.nix
         nix  \
             --experimental-features "nix-command recursive-nix" \
-            build --no-sandbox --impure --log-lines 30 -v -L -f ${expr pkg} \
+            build --no-sandbox --impure --log-lines 30 -v -L -f pkg.nix \
               2>&1 | tee $out/output.log
         echo "Build completed with status: $?"
 
