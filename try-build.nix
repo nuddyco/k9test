@@ -38,7 +38,8 @@ let
         set -e
     '';
 all = builtins.mapAttrs (name: value: try name)
-  (lib.filterAttrs (name: value: name == "bmas") lispPackages_new.sbclPackages);
+#  (lib.filterAttrs (name: value: name == "bmas") lispPackages_new.sbclPackages);
+   lispPackages_new.sbclPackages;
 in
 all
 #  try package
